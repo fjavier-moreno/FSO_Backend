@@ -30,10 +30,21 @@ app.get('/api/persons', (request, response) => {
 	response.json(phonebook)
 })
 
+app.get('/api/persons/:id', (request, response) => {
+	const id = Number(request.params.id)
+	const person = phonebook.find(p => p.id === id)
+
+	if (person) {
+		response.json(person)
+	} else {
+		response.statusMessage = "Person not found"
+		response.status(404).end()
+	}
+})
+
 app.get('/info', (request, response) => {
 	response.send(`<p>Phonebook has info for ${phonebook.length} people</p><p>${new Date()}</p>`)
 })
-
 
 const PORT = 3001
 app.listen(PORT, () => {
