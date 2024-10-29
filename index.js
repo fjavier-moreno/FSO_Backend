@@ -46,6 +46,34 @@ app.get('/info', (request, response) => {
 	response.send(`<p>Phonebook has info for ${phonebook.length} people</p><p>${new Date()}</p>`)
 })
 
+const generateId = () => {
+  let id;
+  do {
+    id = Math.floor(Math.random() * 1000000);
+  } while (phonebook.some(p => p.id === id));
+  return id;
+};
+
+app.post('/api/persons', (request, response) => {
+	const body = request.body
+
+	console.log(body)
+
+	if (!body.name || !body.number) {
+		return response.status(400).json({ error: 'Bad request'})
+	}
+
+	const person = {
+		name: body.name,
+		number: body.number,
+		id: generateId(),
+	}
+
+	phonebook = phonebook.concat(person)
+
+	response.json(person)
+})
+
 app.delete('/api/persons/:id', (request, response) => {
 	const id = Number(request.params.id)
 	phonebook = phonebook.filter(p => p.id !== id)
