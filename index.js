@@ -59,8 +59,12 @@ app.post('/api/persons', (request, response) => {
 
 	console.log(body)
 
-	if (!body.name || !body.number) {
-		return response.status(400).json({ error: 'Bad request'})
+	if (!body.name) {
+		return response.status(400).json({ error: 'Field \'name\' is mandatory'})
+	} else if (!body.number) {
+		return response.status(400).json({ error: 'Field \'number\' is mandatory'})
+	} else if (phonebook.find(p => p.name === body.name)) {
+		return response.status(409).json({ error: `'${body.name}' already exists`})
 	}
 
 	const person = {
