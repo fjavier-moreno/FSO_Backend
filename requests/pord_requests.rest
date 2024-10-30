@@ -1,0 +1,19 @@
+GET  https://fso-backend-slw5.onrender.com/api/persons
+
+###
+
+GET  https://fso-backend-slw5.onrender.com/api/persons/2
+
+###
+
+POST  https://fso-backend-slw5.onrender.com/api/persons
+Content-Type: application/json
+
+{
+	"name": "Bruce Waine",
+	"number": "1234567890"
+}
+
+###
+
+DELETE  https://fso-backend-slw5.onrender.com/api/persons/2
