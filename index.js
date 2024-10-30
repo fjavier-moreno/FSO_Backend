@@ -3,7 +3,8 @@ const morgan = require('morgan')
 const app = express()
 
 app.use(express.json())
-app.use(morgan('tiny'))
+app.use(morgan(':method :url :status :res[content-length] - :response-time ms :payload'))
+morgan.token('payload', function (req, res) { return JSON.stringify(req.body) })
 
 let phonebook = [
 	{ 
@@ -34,7 +35,8 @@ morgan(function (tokens, request, response) {
     tokens.url(req, res),
     tokens.status(req, res),
     tokens.res(req, res, 'content-length'), '-',
-    tokens['response-time'](req, res), 'ms'
+    tokens['response-time'](req, res), 'ms',
+		tokens.payload(req, res),
   ].join(' ')
 })
 
